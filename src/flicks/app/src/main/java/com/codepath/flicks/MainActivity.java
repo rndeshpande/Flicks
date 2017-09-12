@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.codepath.flicks.adapters.MoviesAdapter;
 import com.codepath.flicks.models.Movie;
@@ -28,38 +29,90 @@ public class MainActivity extends AppCompatActivity {
     MoviesAdapter adapter;
     ArrayList<Movie> movies;
     RecyclerView rvMovies;
+    LinearLayoutManager mLayoutManager;
+
     DataProvider provider;
     private final OkHttpClient client = new OkHttpClient();
     private final String apiUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
+
+    boolean mIsLoading = true;
+    int pastVisibleItems, visibleItemCount, totalItemCount;
+    int mPage = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        initialize();
+        loadContent();
+    }
+
+
+    private void initialize() {
         // Initialization code
         provider = new DataProvider();
         movies = new ArrayList<>();
-        //movies.addAll(provider.getAllMovies());
 
         adapter = new MoviesAdapter(this, movies);
         rvMovies = (RecyclerView) findViewById(R.id.rvMovies);
         rvMovies.setAdapter(adapter);
-        rvMovies.setLayoutManager(new LinearLayoutManager(this));
+        mLayoutManager = new LinearLayoutManager(this);
+        rvMovies.setLayoutManager(mLayoutManager);
+
         RecyclerView.ItemDecoration itemDecoration = new
                 DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
         rvMovies.addItemDecoration(itemDecoration);
 
-        loadContent();
+        rvMovies.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
+                if(dy > 0) //check for scroll down
+                {
+                    if(mIsLoading) {
+                        return;
+                    }
+                    Log.d("SCROLL", "Scrolling down");
+                    visibleItemCount = mLayoutManager.getChildCount();
+                    totalItemCount = mLayoutManager.getItemCount();
+                    pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
 
+                        if ( (visibleItemCount + pastVisibleItems) >= totalItemCount -1)
+                        {
+                            mIsLoading = true;
+                            getNextPage();
+                        }
+                }
+            }
+        });
     }
 
-
     private void loadContent() {
+        getResponse(getApiUrl(0));
+        mPage++;
+    }
+
+    private void getNextPage() {
+        getResponse(getApiUrl(mPage + 1));
+        mPage++;
+    }
+
+    private String getApiUrl(Integer page) {
+        String url = apiUrl;
+        if(page > 0) {
+            url += "&page=" + Integer.toString(page);
+        }
+        return url;
+    }
+
+    private void getResponse(String url) {
         Request request = new Request.Builder()
-                .url(apiUrl)
+                .url(url)
                 .build();
 
+        Log.d("TEST", url);
         client.newCall(request).enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -76,12 +129,11 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            System.out.println("NEW ITEM ADDED");
                             movies.addAll(resultMovies);
                             adapter.notifyDataSetChanged();
+                            mIsLoading = false;
                         }
                     });
-
                 }
             }
         });

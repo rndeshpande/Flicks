@@ -1,6 +1,7 @@
 package com.codepath.flicks.adapters;
 
 import android.content.Context;
+import android.content.res.Configuration;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -76,7 +77,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         ImageView ivImage = viewHolder.ivImage;
         Context context = viewHolder.ivImage.getContext();
 
-        String imagePath = context.getResources().getConfiguration().orientation == HORIZONTAL ?
+        String imagePath = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?
                 movie.getPosterPath() :
                 movie.getBackdropPath();
 

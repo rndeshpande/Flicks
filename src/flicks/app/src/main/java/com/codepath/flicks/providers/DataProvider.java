@@ -1,9 +1,11 @@
 package com.codepath.flicks.providers;
 
+import android.app.Activity;
 import android.content.Context;
 
 import com.codepath.flicks.MainActivity;
 import com.codepath.flicks.adapters.MoviesAdapter;
+import com.codepath.flicks.models.Movie;
 import com.codepath.flicks.models.MoviesDbResponse;
 import com.google.gson.GsonBuilder;
 
