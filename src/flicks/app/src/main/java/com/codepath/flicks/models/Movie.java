@@ -8,8 +8,6 @@ import com.google.gson.annotations.SerializedName;
 
 public class Movie {
     private final String baseUrl = "http://image.tmdb.org/t/p/";
-    private final String posterSize = "w342/";
-    private final String backdropSize = "w780/";
 
     @SerializedName("id")
     public  Integer id;
@@ -17,8 +15,8 @@ public class Movie {
     @SerializedName("title")
     public  String title;
 
-    @SerializedName("popularity")
-    public  Double popularity;
+    @SerializedName("vote_average")
+    public  Double voteAverage;
 
     @SerializedName("poster_path")
     public  String posterPath;
@@ -35,11 +33,11 @@ public class Movie {
     @SerializedName("release_date")
     public  String releaseDate;
 
-    public String getPosterPath() {
-        return baseUrl + posterSize  + posterPath;
+    public String getPosterPath(String size) {
+        return baseUrl + size + "/"  + posterPath;
     }
 
-    public String getBackdropPath() {
-        return  baseUrl + backdropSize + backdropPath;
+    public String getBackdropPath(String size) {
+        return  baseUrl + size + "/" + backdropPath;
     }
 }

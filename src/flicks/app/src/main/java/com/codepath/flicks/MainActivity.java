@@ -74,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
                     if(mIsLoading) {
                         return;
                     }
-                    Log.d("SCROLL", "Scrolling down");
+
                     visibleItemCount = mLayoutManager.getChildCount();
                     totalItemCount = mLayoutManager.getItemCount();
                     pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
