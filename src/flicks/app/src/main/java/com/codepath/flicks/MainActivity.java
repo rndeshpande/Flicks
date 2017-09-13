@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity {
                 .url(url)
                 .build();
 
-        Log.d("TEST", url);
         client.newCall(request).enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
                 e.printStackTrace();

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.codepath.flicks.R;
 import com.codepath.flicks.models.Movie;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -74,25 +75,24 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
     public void onBindViewHolder(MoviesAdapter.ViewHolder viewHolder, int position) {
         Movie movie = mMovies.get(position);
 
-        ImageView ivImage = viewHolder.ivImage;
-        Context context = viewHolder.ivImage.getContext();
-
-        String imagePath = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?
-                movie.getPosterPath() :
-                movie.getBackdropPath();
-
-        Picasso.with(context)
-                .load(imagePath)
-                .transform(new RoundedCornersTransformation(50,10))
-                .into(ivImage);
-
-        Log.d("APP",movie.getPosterPath());
+        final ImageView ivImage = viewHolder.ivImage;
+        final Context context = viewHolder.ivImage.getContext();
 
         TextView tvTitle = viewHolder.tvTitle;
         tvTitle.setText(movie.title);
 
         TextView tvDescription = viewHolder.tvDescription;
         tvDescription.setText(movie.overview);
+
+        final String imagePath = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?
+                movie.getPosterPath() :
+                movie.getBackdropPath();
+
+        Picasso.with(context)
+                .load(imagePath)
+                .placeholder(R.drawable.camera)
+                .transform(new RoundedCornersTransformation(50,10))
+                .into(ivImage);
     }
 
     // Returns the total count of items in the list
