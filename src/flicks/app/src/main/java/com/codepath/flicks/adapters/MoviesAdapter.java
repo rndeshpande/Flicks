@@ -1,6 +1,7 @@
 package com.codepath.flicks.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.codepath.flicks.R;
+import com.codepath.flicks.activities.MovieDetailsActivity;
 import com.codepath.flicks.models.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -47,20 +49,38 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        RecyclerView.ViewHolder viewHolder;
-        Context context = parent.getContext();
+        final RecyclerView.ViewHolder viewHolder;
+        final Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         switch (viewType) {
             case POPULAR:
                 View itemViewPopular = inflater.inflate(R.layout.list_movie_popular, parent, false);
+
                 viewHolder = new ViewHolderPopular(itemViewPopular);
+                itemViewPopular.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = viewHolder.getAdapterPosition();
+                        Movie movie = mMovies.get(position);
+                        showDetails(context, movie.id);
+                    }
+                });
                 break;
             default:;
                 View itemViewRegular = inflater.inflate(R.layout.list_movie, parent, false);
                 viewHolder = new ViewHolderRegular(itemViewRegular);
+                itemViewRegular.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = viewHolder.getAdapterPosition();
+                        Movie movie = mMovies.get(position);
+                        showDetails(context, movie.id);
+                    }
+                });
                 break;
         }
+
         return viewHolder;
     }
 
@@ -130,5 +150,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public int getItemCount() {
         return mMovies.size();
+    }
+
+    private void showDetails(Context context, int id) {
+        Intent intent = new Intent(context, MovieDetailsActivity.class);
+        intent.putExtra("movieId", id);
+        context.startActivity(intent);
     }
 }

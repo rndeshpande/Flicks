@@ -4,8 +4,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.codepath.flicks.R;
+import com.codepath.flicks.models.Movie;
 
 /**
  * Created by rdeshpan on 9/12/2017.
@@ -29,6 +31,8 @@ public class ViewHolderRegular extends RecyclerView.ViewHolder implements View.O
 
     @Override
     public void onClick(View view) {
-        int position = getAdapterPosition(); // gets item position
+        int position = getAdapterPosition();
+
+        Toast.makeText(view.getContext() , Integer.toString(position), Toast.LENGTH_SHORT).show();
     }
 }

@@ -3,10 +3,10 @@ package com.codepath.flicks.models;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by rdeshpan on 9/10/2017.
+ * Created by rdeshpan on 9/14/2017.
  */
 
-public class Movie {
+public class MovieDetails {
     private final String baseUrl = "http://image.tmdb.org/t/p/";
 
     @SerializedName("id")
@@ -32,6 +32,12 @@ public class Movie {
 
     @SerializedName("release_date")
     public  String releaseDate;
+
+    @SerializedName("runtime")
+    public  String runtime;
+
+    @SerializedName("tagline")
+    public  String tagline;
 
     public String getPosterPath(String size) {
         return baseUrl + size + "/"  + posterPath;
