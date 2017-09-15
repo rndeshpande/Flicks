@@ -9,30 +9,21 @@ import android.widget.Toast;
 import com.codepath.flicks.R;
 import com.codepath.flicks.models.Movie;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by rdeshpan on 9/12/2017.
  */
 
-public class ViewHolderRegular extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class ViewHolderRegular extends RecyclerView.ViewHolder {
 
-    public ImageView ivImage;
-    public TextView tvTitle;
-    public TextView tvDescription;
+    @BindView(R.id.ivImage) public ImageView ivImage;
+    @BindView(R.id.tvTitle) public TextView tvTitle;
+    @BindView(R.id.tvDescription) public TextView tvDescription;
 
     public ViewHolderRegular(View itemView) {
         super(itemView);
-
-        ivImage = (ImageView) itemView.findViewById(R.id.ivImage);
-        tvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-        tvDescription = (TextView) itemView.findViewById(R.id.tvDescription);
-
-        itemView.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view) {
-        int position = getAdapterPosition();
-
-        Toast.makeText(view.getContext() , Integer.toString(position), Toast.LENGTH_SHORT).show();
+        ButterKnife.bind(this, itemView);
     }
 }

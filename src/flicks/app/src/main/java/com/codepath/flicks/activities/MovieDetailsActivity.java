@@ -21,6 +21,8 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -30,11 +32,11 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class MovieDetailsActivity extends AppCompatActivity {
-    ImageView ivImage;
-    RatingBar rbRating;
-    TextView tvOverview;
-    TextView tvTitle;
-    TextView tvTagline;
+    @BindView(R.id.ivImage) ImageView ivImage;
+    @BindView(R.id.rbRating) RatingBar rbRating;
+    @BindView(R.id.tvOverview) TextView tvOverview;
+    @BindView(R.id.tvTitle) TextView tvTitle;
+    @BindView(R.id.tvTagline) TextView tvTagline;
 
     private final OkHttpClient client = new OkHttpClient();
     private final String apiUrl = "https://api.themoviedb.org/3/movie/";
@@ -45,15 +47,10 @@ public class MovieDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie_details);
+        ButterKnife.bind(this);
 
         Intent intent = getIntent();
         int movieId = intent.getIntExtra("movieId", -1);
-
-        ivImage = (ImageView) findViewById(R.id.ivImage);
-        rbRating = (RatingBar) findViewById(R.id.rbRating);
-        tvOverview = (TextView) findViewById(R.id.tvOverview);
-        tvTitle  = (TextView) findViewById(R.id.tvTitle);
-        tvTagline  = (TextView) findViewById(R.id.tvTagline);
 
         showDetails(this, movieId);
     }

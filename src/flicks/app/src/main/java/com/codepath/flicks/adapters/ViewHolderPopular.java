@@ -8,24 +8,20 @@ import android.widget.TextView;
 
 import com.codepath.flicks.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 /**
  * Created by rdeshpan on 9/12/2017.
  */
 
-public class ViewHolderPopular extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class ViewHolderPopular extends RecyclerView.ViewHolder {
 
-    public ImageView ivImagePopular;
+    @BindView(R.id.ivImagePopular) public ImageView ivImagePopular;
 
     public ViewHolderPopular(View itemView) {
         super(itemView);
-
-        ivImagePopular = (ImageView) itemView.findViewById(R.id.ivImagePopular);
-
-        itemView.setOnClickListener(this);
+        ButterKnife.bind(this, itemView);
     }
 
-    @Override
-    public void onClick(View view) {
-        int position = getAdapterPosition(); // gets item position
-    }
 }

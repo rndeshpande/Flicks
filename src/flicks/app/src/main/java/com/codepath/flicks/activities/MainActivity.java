@@ -17,6 +17,8 @@ import com.google.gson.GsonBuilder;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -26,9 +28,10 @@ import okhttp3.ResponseBody;
 
 public class MainActivity extends AppCompatActivity {
 
+    @BindView(R.id.rvMovies) RecyclerView rvMovies;
+
     MoviesAdapter adapter;
     ArrayList<Movie> movies;
-    RecyclerView rvMovies;
     LinearLayoutManager mLayoutManager;
 
     DataProvider provider;
@@ -44,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
         initialize();
         loadContent();
@@ -56,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
         movies = new ArrayList<>();
 
         adapter = new MoviesAdapter(this, movies);
-        rvMovies = (RecyclerView) findViewById(R.id.rvMovies);
+
         rvMovies.setAdapter(adapter);
         mLayoutManager = new LinearLayoutManager(this);
         rvMovies.setLayoutManager(mLayoutManager);
