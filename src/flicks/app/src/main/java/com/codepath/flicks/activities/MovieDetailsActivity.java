@@ -6,6 +6,7 @@ import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -37,6 +38,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     @BindView(R.id.tvOverview) TextView tvOverview;
     @BindView(R.id.tvTitle) TextView tvTitle;
     @BindView(R.id.tvTagline) TextView tvTagline;
+    @BindView(R.id.ivPlay) ImageView ivPlay;
 
     private final OkHttpClient client = new OkHttpClient();
     private final String apiUrl = "https://api.themoviedb.org/3/movie/";
@@ -50,7 +52,16 @@ public class MovieDetailsActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        int movieId = intent.getIntExtra("movieId", -1);
+        final int movieId = intent.getIntExtra("movieId", -1);
+
+        ivPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), MoviePlayerActivity.class);
+                intent.putExtra("movieId", movieId);
+                v.getContext().startActivity(intent);
+            }
+        });
 
         showDetails(this, movieId);
     }

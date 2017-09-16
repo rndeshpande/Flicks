@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 public class ViewHolderPopular extends RecyclerView.ViewHolder {
 
     @BindView(R.id.ivImagePopular) public ImageView ivImagePopular;
+    @BindView(R.id.ivPlay) public ImageView ivPlay;
 
     public ViewHolderPopular(View itemView) {
         super(itemView);

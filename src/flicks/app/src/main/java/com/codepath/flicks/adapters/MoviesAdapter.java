@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.codepath.flicks.R;
 import com.codepath.flicks.activities.MovieDetailsActivity;
+import com.codepath.flicks.activities.MoviePlayerActivity;
 import com.codepath.flicks.models.Movie;
 import com.squareup.picasso.Picasso;
 
@@ -48,7 +49,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int viewType) {
         final RecyclerView.ViewHolder viewHolder;
         final Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
@@ -63,7 +64,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onClick(View v) {
                         int position = viewHolder.getAdapterPosition();
                         Movie movie = mMovies.get(position);
-                        showDetails(context, movie.id);
+                        showDetails(context, movie.id, viewType);
                     }
                 });
                 break;
@@ -75,7 +76,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                     public void onClick(View v) {
                         int position = viewHolder.getAdapterPosition();
                         Movie movie = mMovies.get(position);
-                        showDetails(context, movie.id);
+                        showDetails(context, movie.id, viewType);
                     }
                 });
                 break;
@@ -128,6 +129,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         Movie movie = mMovies.get(position);
 
         final ImageView ivImagePopular = viewHolder.ivImagePopular;
+        final ImageView ivPlay = viewHolder.ivPlay;
         final Context context = viewHolder.ivImagePopular.getContext();
 
         final String imagePath = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?
@@ -152,8 +154,16 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return mMovies.size();
     }
 
-    private void showDetails(Context context, int id) {
-        Intent intent = new Intent(context, MovieDetailsActivity.class);
+    private void showDetails(Context context, int id, int viewType) {
+        Intent intent;
+
+        switch (viewType) {
+            case POPULAR:
+                intent = new Intent(context, MoviePlayerActivity.class);
+                break;
+            default:
+                intent = new Intent(context, MovieDetailsActivity.class);
+        }
         intent.putExtra("movieId", id);
         context.startActivity(intent);
     }
