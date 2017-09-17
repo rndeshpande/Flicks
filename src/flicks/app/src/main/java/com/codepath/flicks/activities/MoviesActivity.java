@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.codepath.flicks.R;
 import com.codepath.flicks.adapters.MoviesAdapter;
@@ -29,17 +30,33 @@ import okhttp3.ResponseBody;
 public class MoviesActivity extends AppCompatActivity {
 
     @BindView(R.id.rvMovies) RecyclerView rvMovies;
+    @BindView(R.id.rvComingSoon) RecyclerView rvUpcoming;
+    @BindView(R.id.rvTopRated) RecyclerView rvTopRated;
 
     MoviesAdapter adapter;
-    ArrayList<Movie> movies;
+    MoviesAdapter adapterUp;
+    MoviesAdapter adapterTr;
+
+    ArrayList<Movie> mMovies;
+    ArrayList<Movie> mMoviesUp;
+    ArrayList<Movie> mMoviesTr;
+
     LinearLayoutManager mLayoutManager;
+    LinearLayoutManager mLayoutManagerUp;
+    LinearLayoutManager mLayoutManagerTr;
 
     private final OkHttpClient client = new OkHttpClient();
 
     boolean mIsLoading = true;
-    int pastVisibleItems, visibleItemCount, totalItemCount;
+    boolean mIsLoadingUp = true;
+    boolean mIsLoadingTr = true;
     int mPage = 0;
+    int mPageUp = 0;
+    int mPageTr = 0;
 
+    private final int CATEGORY_NOW_PLAYING = 1;
+    private final int CATEGORY_UPCOMING = 2;
+    private final int CATEGORY_TOP_RATED = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,67 +65,180 @@ public class MoviesActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         initialize();
-        loadContent();
+        loadContent(CATEGORY_NOW_PLAYING);
+        loadContent(CATEGORY_UPCOMING);
+        loadContent(CATEGORY_TOP_RATED);
     }
 
 
     private void initialize() {
-        // Initialization code
-        movies = new ArrayList<>();
+        initializeNowPlaying();
+        initializeUpcoming();
+        initializeTopRated();
+    }
 
-        adapter = new MoviesAdapter(this, movies);
+    private void initializeNowPlaying() {
+        // Initialization code
+        mMovies = new ArrayList<>();
+
+        adapter = new MoviesAdapter(this, mMovies);
 
         rvMovies.setAdapter(adapter);
-        mLayoutManager = new LinearLayoutManager(this);
+        mLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
         rvMovies.setLayoutManager(mLayoutManager);
-
-        RecyclerView.ItemDecoration itemDecoration = new
-                DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-        rvMovies.addItemDecoration(itemDecoration);
 
         rvMovies.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
-                if(dy > 0) //check for scroll downe
+                if(dx > 0) //check for scroll right
                 {
                     if(mIsLoading) {
                         return;
                     }
 
-                    visibleItemCount = mLayoutManager.getChildCount();
-                    totalItemCount = mLayoutManager.getItemCount();
-                    pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
+                    int visibleItemCount = mLayoutManager.getChildCount();
+                    int totalItemCount = mLayoutManager.getItemCount();
+                    int pastVisibleItems = mLayoutManager.findFirstVisibleItemPosition();
 
-                        if ( (visibleItemCount + pastVisibleItems) >= totalItemCount -1)
-                        {
-                            mIsLoading = true;
-                            getNextPage();
-                        }
+                    if ( (visibleItemCount + pastVisibleItems) >= totalItemCount -1)
+                    {
+                        mIsLoading = true;
+                        getNextPage(CATEGORY_NOW_PLAYING);
+                    }
                 }
             }
         });
     }
 
-    private void loadContent() {
-        getResponse(getApiUrl(0));
-        mPage++;
+    private void initializeUpcoming() {
+        // Initialization code
+        mMoviesUp = new ArrayList<>();
+
+        adapterUp = new MoviesAdapter(this, mMoviesUp);
+
+        rvUpcoming.setAdapter(adapterUp);
+        mLayoutManagerUp = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
+        rvUpcoming.setLayoutManager(mLayoutManagerUp);
+
+        rvUpcoming.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
+                if(dx > 0) //check for scroll right
+                {
+                    if(mIsLoading) {
+                        return;
+                    }
+
+                    int visibleItemCount = mLayoutManagerUp.getChildCount();
+                    int totalItemCount = mLayoutManagerUp.getItemCount();
+                    int pastVisibleItems = mLayoutManagerUp.findFirstVisibleItemPosition();
+
+                    if ( (visibleItemCount + pastVisibleItems) >= totalItemCount -1)
+                    {
+                        mIsLoading = true;
+                        getNextPage(CATEGORY_UPCOMING);
+                    }
+                }
+            }
+        });
     }
 
-    private void getNextPage() {
-        getResponse(getApiUrl(mPage + 1));
-        mPage++;
+    private void initializeTopRated() {
+        // Initialization code
+        mMoviesTr = new ArrayList<>();
+
+        adapterTr = new MoviesAdapter(this, mMoviesTr);
+
+        rvTopRated.setAdapter(adapterTr);
+        mLayoutManagerTr = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false);
+        rvTopRated.setLayoutManager(mLayoutManagerTr);
+
+        rvTopRated.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy)
+            {
+                if(dx > 0) //check for scroll right
+                {
+                    if(mIsLoading) {
+                        return;
+                    }
+
+                    int visibleItemCount = mLayoutManagerTr.getChildCount();
+                    int totalItemCount = mLayoutManagerTr.getItemCount();
+                    int pastVisibleItems = mLayoutManagerTr.findFirstVisibleItemPosition();
+
+                    if ( (visibleItemCount + pastVisibleItems) >= totalItemCount -1)
+                    {
+                        mIsLoading = true;
+                        getNextPage(CATEGORY_TOP_RATED);
+                    }
+                }
+            }
+        });
     }
 
-    private String getApiUrl(Integer page) {
-        String url = ConfigHelper.getMovieDbUrl();
+    private void loadContent(int category) {
+        getResponse(getApiUrl(0, category), category);
+
+        switch (category) {
+            case CATEGORY_NOW_PLAYING:
+                mPage++;
+                break;
+            case CATEGORY_UPCOMING:
+                mPageUp++;
+                break;
+            case CATEGORY_TOP_RATED:
+                mPageTr++;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void getNextPage(int category) {
+        switch (category) {
+            case CATEGORY_NOW_PLAYING:
+                getResponse(getApiUrl(mPage + 1,category), category);
+                mPage++;
+                break;
+            case CATEGORY_UPCOMING:
+                getResponse(getApiUrl(mPageUp + 1,category),category);
+                mPageUp++;
+                break;
+            case CATEGORY_TOP_RATED:
+                getResponse(getApiUrl(mPageUp + 1,category),category);
+                mPageTr++;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private String getApiUrl(int page, int category) {
+        String url ="";
+        switch (category) {
+            case CATEGORY_NOW_PLAYING:
+                url = ConfigHelper.getMovieDbUrl();
+                break;
+            case CATEGORY_UPCOMING:
+                url = ConfigHelper.getMovieDbUrlUpcoming();
+                break;
+            case CATEGORY_TOP_RATED:
+                url = ConfigHelper.getMovieDbUrlTopRated();
+                break;
+            default:
+                break;
+        }
+
         if(page > 0) {
             url += "&page=" + Integer.toString(page);
         }
         return url;
     }
 
-    private void getResponse(String url) {
+    private void getResponse(String url, final int category) {
         Request request = new Request.Builder()
                 .url(url)
                 .build();
@@ -129,13 +259,34 @@ public class MoviesActivity extends AppCompatActivity {
                     MoviesActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            movies.addAll(resultMovies);
-                            adapter.notifyDataSetChanged();
-                            mIsLoading = false;
+                            updateDataset(resultMovies, category);
                         }
                     });
                 }
             }
         });
+    }
+
+    private void updateDataset(ArrayList<Movie> movies, int category) {
+        switch (category) {
+            case CATEGORY_NOW_PLAYING:
+                mMovies.addAll(movies);
+                adapter.notifyDataSetChanged();
+                mIsLoading = false;
+                break;
+            case CATEGORY_UPCOMING:
+                mMoviesUp.addAll(movies);
+                adapterUp.notifyDataSetChanged();
+                mIsLoadingUp = false;
+                break;
+            case CATEGORY_TOP_RATED:
+                mMoviesTr.addAll(movies);
+                adapterTr.notifyDataSetChanged();
+                mIsLoadingTr = false;
+                break;
+            default:
+                break;
+        }
+
     }
 }

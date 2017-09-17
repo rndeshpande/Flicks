@@ -1,16 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.codepath.flicks.activities.MoviesActivity">
+    tools:context="com.codepath.flicks.activities.MoviesActivity"
+    style="@style/BaseView">
+
+    <TextView
+        android:id="@+id/tvNowPlaying"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/now_playing"
+        style="@style/TextCategory"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rvMovies"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvNowPlaying"
+        />
+    <TextView
+        android:id="@+id/tvUpcoming"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/coming_soon"
+        android:layout_below="@id/rvMovies"
+        style="@style/TextCategory"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvComingSoon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvUpcoming"
+        />
+
+    <TextView
+        android:id="@+id/tvTopRated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/top_rated"
+        android:layout_below="@id/rvComingSoon"
+        style="@style/TextCategory"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvTopRated"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/tvTopRated"
         />
 </RelativeLayout>
+</ScrollView>

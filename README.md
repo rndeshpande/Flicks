@@ -2,7 +2,7 @@
 
 **Flicks** shows the latest movies currently playing in theaters. The app utilizes the Movie Database API to display images and basic information about these movies to the user.
 
-Time spent: **20** hours spent in total
+Time spent: **25** hours spent in total
 
 ## User Stories
 
@@ -32,14 +32,14 @@ The following **bonus** features are implemented:
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you can get done to improve the app functionality!
+* [X] Show the list of movies in a horizontal layout under each category (Now Playing, Upcoming, Top Rated supported currently). This gives a better user experience by giving users choice to view information about a specific category.
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='Walkthroughs/Demo_4_Portrait.gif' title='Video Walkthrough Portrait' width='' alt='Video Walkthrough' />
-<img src='Walkthroughs/Demo_4_Landscape.gif' title='Video Walkthrough Landscape' width='' alt='Video Walkthrough' />
+<img src='Walkthroughs/Demo_5_Portrait.gif' title='Video Walkthrough Portrait' width='' alt='Video Walkthrough' />
+<img src='Walkthroughs/Demo_5_Landscape.gif' title='Video Walkthrough Landscape' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
@@ -47,12 +47,14 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
 Describe any challenges encountered while building the app.
 1. okHttp and executing async requests in a different class that cannot access MainActivity (currently moved the code to MainActivity with okHttp executing requests asynchronously)
+2. On a horizontal list layout, showing the next item in the list partially on the screen. The messaging to indicate that there are items following the currently visible item that are outside the screen is particularly challenging if any icons/indicators are not used.
+3. Deciding on the optimum image size to display on a screen to allow for better whitespace and content balance.
 
 ## Open-source libraries used
 
-- [Android Async HTTP](https://github.com/loopj/android-async-http) - Simple asynchronous HTTP requests with JSON parsing
 - [Picasso](http://square.github.io/picasso/) - Image loading and caching library for Android
 - [okHttp](http://square.github.io/okhttp/) - An HTTP & HTTP/2 client for Android and Java applications
+- [Gson](https://github.com/google/gson) - A Java serialization/deserialization library to convert Java Objects into JSON and back
 
 ## License
 

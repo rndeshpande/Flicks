@@ -14,6 +14,14 @@ public class ConfigHelper {
         return baseUrlMovieDb + "now_playing?api_key=" + API_KEY_MOVIEDB;
     }
 
+    public static String getMovieDbUrlUpcoming() {
+        return baseUrlMovieDb + "upcoming?api_key=" + API_KEY_MOVIEDB;
+    }
+
+    public static String getMovieDbUrlTopRated() {
+        return baseUrlMovieDb + "top_rated?api_key=" + API_KEY_MOVIEDB;
+    }
+
     public static String getMovieDbMovieUrl(int movieId) {
         return  baseUrlMovieDb + Integer.toString(movieId) + "?api_key=" + API_KEY_MOVIEDB;
     }

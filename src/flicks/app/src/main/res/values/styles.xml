@@ -28,5 +28,9 @@
     <style name="TextDetailsOverview">
         <item  name="android:textSize">17sp</item>
     </style>
+    <style name="TextCategory">
+        <item  name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
 </resources>
