@@ -16,6 +16,7 @@ import com.codepath.flicks.R;
 import com.codepath.flicks.models.Movie;
 import com.codepath.flicks.models.MovieDetails;
 import com.codepath.flicks.models.MoviesDbResponse;
+import com.codepath.flicks.utils.ConfigHelper;
 import com.google.gson.GsonBuilder;
 import com.squareup.picasso.Picasso;
 
@@ -41,8 +42,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
     @BindView(R.id.ivPlay) ImageView ivPlay;
 
     private final OkHttpClient client = new OkHttpClient();
-    private final String apiUrl = "https://api.themoviedb.org/3/movie/";
-    private final String apiKey = "a07e22bc18f5cb106bfe4cc1f83ad8ed";
     final String portraitSize = "w780";
 
     @Override
@@ -67,9 +66,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     private  void showDetails(final Context context, int movieId) {
-        Log.d("URL", getApiUrl(movieId));
         Request request = new Request.Builder()
-                .url(getApiUrl(movieId))
+                .url(ConfigHelper.getMovieDbMovieUrl(movieId))
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
@@ -88,10 +86,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private String getApiUrl(int movieId) {
-        return  apiUrl + Integer.toString(movieId) + "?api_key=" + apiKey;
     }
 
     private void populateView(final Context context, final MovieDetails details) {

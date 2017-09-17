@@ -11,7 +11,7 @@ import com.codepath.flicks.adapters.MoviesAdapter;
 import com.codepath.flicks.models.Movie;
 import com.codepath.flicks.models.MoviesDbResponse;
 
-import com.codepath.flicks.providers.DataProvider;
+import com.codepath.flicks.utils.ConfigHelper;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
@@ -34,9 +34,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<Movie> movies;
     LinearLayoutManager mLayoutManager;
 
-    DataProvider provider;
     private final OkHttpClient client = new OkHttpClient();
-    private final String apiUrl = "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed";
 
     boolean mIsLoading = true;
     int pastVisibleItems, visibleItemCount, totalItemCount;
@@ -56,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initialize() {
         // Initialization code
-        provider = new DataProvider();
         movies = new ArrayList<>();
 
         adapter = new MoviesAdapter(this, movies);
@@ -73,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy)
             {
-                if(dy > 0) //check for scroll down
+                if(dy > 0) //check for scroll downe
                 {
                     if(mIsLoading) {
                         return;
@@ -104,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String getApiUrl(Integer page) {
-        String url = apiUrl;
+        String url = ConfigHelper.getMovieDbUrl();
         if(page > 0) {
             url += "&page=" + Integer.toString(page);
         }

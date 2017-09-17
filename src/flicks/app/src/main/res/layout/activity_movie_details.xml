@@ -9,7 +9,7 @@
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:layout_margin="20dp">
+            style="@style/BaseView" >
             <ImageView
                 android:id="@+id/ivImage"
                 android:layout_width="match_parent"
@@ -32,10 +32,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@+id/ivImage"
-                android:textSize="20sp"
+                android:textAppearance="@style/TextTitle"
                 android:gravity="center_horizontal"
                 android:textAlignment="center"
-                android:layout_marginBottom="5dp"
                 />
             <RatingBar
                 android:id="@+id/rbRating"
@@ -45,8 +44,7 @@
                 android:layout_alignLeft="@+id/tvTitle"
                 android:layout_alignRight="@+id/tvTitle"
                 style="?android:attr/ratingBarStyleSmall"
-                android:layout_marginBottom="10dp"
-                />
+                android:layout_marginBottom="10dp" />
 
             <TextView
                 android:id="@+id/tvTagline"
@@ -55,10 +53,7 @@
                 android:layout_below="@+id/rbRating"
                 android:layout_alignParentLeft="true"
                 android:gravity="center"
-                android:textSize="17sp"
-                android:layout_marginBottom="20dp"
-                android:textStyle="italic"
-                />
+                style="@style/TextDetailsTagline" />
 
             <TextView
                 android:id="@+id/tvOverview"
@@ -66,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTagline"
                 android:layout_alignParentLeft="true"
-                android:textSize="17sp"/>
+                style="@style/TextDetailsOverview" />
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

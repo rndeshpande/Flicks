@@ -30,9 +30,8 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ivImage"
                 android:layout_alignParentLeft="true"
-                android:textSize="20sp"
+                android:textAppearance="@style/TextTitle"
                 android:gravity="center_horizontal"
-                android:textAlignment="center"
                 android:layout_marginBottom="5dp"
                 />
 
@@ -55,9 +54,7 @@
                 android:layout_below="@+id/rbRating"
                 android:layout_alignParentLeft="true"
                 android:gravity="center"
-                android:textSize="17sp"
-                android:layout_marginBottom="20dp"
-                android:textStyle="italic"
+                style="@style/TextDetailsTagline"
                 />
 
             <TextView
@@ -66,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvTagline"
                 android:layout_alignParentLeft="true"
-                android:textSize="17sp"/>
+                style="@style/TextDetailsOverview"/>
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>

@@ -10,6 +10,7 @@ import com.codepath.flicks.models.Movie;
 import com.codepath.flicks.models.MovieVideo;
 import com.codepath.flicks.models.MovieVideosResponse;
 import com.codepath.flicks.models.MoviesDbResponse;
+import com.codepath.flicks.utils.ConfigHelper;
 import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -32,10 +33,6 @@ public class MoviePlayerActivity extends YouTubeBaseActivity {
 
     @BindView(R.id.ytPlayer) YouTubePlayerView playerView;
 
-    private final String API_KEY_YOUTUBE = "AIzaSyChFS5XMhK8kXSE-cecMW9ux1RKuADEBk4";
-    private final String API_KEY_MOVIEDB =  "a07e22bc18f5cb106bfe4cc1f83ad8ed";
-    private final String baseUrl = "https://api.themoviedb.org/3/movie";
-
     private final OkHttpClient client = new OkHttpClient();
 
 
@@ -53,10 +50,9 @@ public class MoviePlayerActivity extends YouTubeBaseActivity {
 
     private void playMovie(int movieId) {
         Request request = new Request.Builder()
-                .url(getApiUrlMovieDb(Integer.toString(movieId)))
+                .url(ConfigHelper.getMovieDbVideosUrl(movieId))
                 .build();
 
-        Log.d("PLAYER", getApiUrlMovieDb(Integer.toString(movieId)));
         client.newCall(request).enqueue(new Callback() {
             @Override public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -84,7 +80,7 @@ public class MoviePlayerActivity extends YouTubeBaseActivity {
     }
 
     private void loadMovie(final String videoId) {
-        playerView.initialize(API_KEY_YOUTUBE,
+        playerView.initialize(ConfigHelper.getYouTubeApiKey(),
                 new YouTubePlayer.OnInitializedListener() {
                     @Override
                     public void onInitializationSuccess(YouTubePlayer.Provider provider,
@@ -99,9 +95,5 @@ public class MoviePlayerActivity extends YouTubeBaseActivity {
 
                     }
                 });
-    }
-
-    private String getApiUrlMovieDb(String movieId) {
-        return baseUrl + "/" + movieId + "/videos?api_key=" + API_KEY_MOVIEDB;
     }
 }
