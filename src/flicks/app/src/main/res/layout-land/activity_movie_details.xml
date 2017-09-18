@@ -22,6 +22,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
                 android:paddingTop="40dp"
+                android:background="@android:color/transparent"
                 />
 
             <TextView

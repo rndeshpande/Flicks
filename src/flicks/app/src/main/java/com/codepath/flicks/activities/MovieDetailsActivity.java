@@ -2,6 +2,9 @@ package com.codepath.flicks.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -96,6 +99,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 tvOverview.setText(details.overview);
                 rbRating.setNumStars(10);
                 rbRating.setRating(details.voteAverage);
+                LayerDrawable stars = (LayerDrawable) rbRating.getProgressDrawable();
+                stars.getDrawable(2).setColorFilter(Color.YELLOW, PorterDuff.Mode.SRC_ATOP);
                 tvTitle.setText(details.title);
                 tvTagline.setText(details.tagline);
 

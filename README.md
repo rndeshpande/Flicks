@@ -52,6 +52,7 @@ Describe any challenges encountered while building the app.
 1. okHttp and executing async requests in a different class that cannot access MainActivity (currently moved the code to MainActivity with okHttp executing requests asynchronously)
 2. On a horizontal list layout, showing the next item in the list partially on the screen. The messaging to indicate that there are items following the currently visible item that are outside the screen is particularly challenging if any icons/indicators are not used.
 3. Deciding on the optimum image size to display on a screen to allow for better whitespace and content balance.
+4. Deciding on a color scheme for application. Initially started with a lighter theme with white background but the transition between white screen and dark background videos (on Youtube) did not appear smooth. Switched to a dark gray background with white text to avoid sudden color change during screen to video transition. This would also be less stressful during the night. (Theme inspired by the Netflix apps)
 
 ## Open-source libraries used
 
