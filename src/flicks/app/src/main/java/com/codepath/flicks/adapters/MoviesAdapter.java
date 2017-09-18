@@ -54,10 +54,10 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         final Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
+
         switch (viewType) {
             case POPULAR:
                 View itemViewPopular = inflater.inflate(R.layout.list_movie_popular, parent, false);
-
                 viewHolder = new ViewHolderPopular(itemViewPopular);
                 itemViewPopular.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -130,6 +130,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         final ImageView ivImagePopular = viewHolder.ivImagePopular;
         final ImageView ivPlay = viewHolder.ivPlay;
+        final TextView tvTitle = viewHolder.tvTitle;
+        tvTitle.setText(movie.title);
+
         final Context context = viewHolder.ivImagePopular.getContext();
 
         final String imagePath = context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?

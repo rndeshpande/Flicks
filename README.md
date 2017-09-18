@@ -33,13 +33,16 @@ The following **bonus** features are implemented:
 The following **additional** features are implemented:
 
 * [X] Show the list of movies in a horizontal layout under each category (Now Playing, Upcoming, Top Rated supported currently). This gives a better user experience by giving users choice to view information about a specific category.
+* [X] For each category, show the next item in the list partially. This would act as a cue to the user that there are more items to view and to swipe horizontally to bring them in on screen.
+
+
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
-<img src='Walkthroughs/Demo_5_Portrait.gif' title='Video Walkthrough Portrait' width='' alt='Video Walkthrough' />
-<img src='Walkthroughs/Demo_5_Landscape.gif' title='Video Walkthrough Landscape' width='' alt='Video Walkthrough' />
+<img src='Walkthroughs/Demo_6_Portrait.gif' title='Video Walkthrough Portrait' width='' alt='Video Walkthrough' />
+<img src='Walkthroughs/Demo_6_Landscape.gif' title='Video Walkthrough Landscape' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 

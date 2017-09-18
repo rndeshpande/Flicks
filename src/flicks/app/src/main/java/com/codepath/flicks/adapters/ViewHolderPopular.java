@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.codepath.flicks.R;
 
+import org.w3c.dom.Text;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -19,6 +21,7 @@ public class ViewHolderPopular extends RecyclerView.ViewHolder {
 
     @BindView(R.id.ivImagePopular) public ImageView ivImagePopular;
     @BindView(R.id.ivPlay) public ImageView ivPlay;
+    @BindView(R.id.tvTitle) public TextView tvTitle;
 
     public ViewHolderPopular(View itemView) {
         super(itemView);
